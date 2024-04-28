@@ -1,3 +1,7 @@
+/* Code in this script was made by integrating snippets from various tutorials within Earth engine such as 
+  reference catalog, https://google-earth-engine.com/, https://iamdonovan.github.io/gee/tutorials/index.html,
+  and example repositories withing earth engine code editor */
+
 var mayo_boundary = 
     /* color: #106bc9 */
     /* shown: false */
@@ -14355,12 +14359,6 @@ var mayo_boundary =
               "Classname": "Marshes",
               "system:index": "40"
             })]);
-
-/* Code in this script was made by integrating snippets from various tutorials within Earth engine such as 
-  reference catalog, https://google-earth-engine.com/, https://iamdonovan.github.io/gee/tutorials/index.html,
-  and example repositories withing earth engine code editor */
-
-
 
 // Define base map style.
 var basemapStyle = [{
