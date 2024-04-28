@@ -1,3 +1,7 @@
+/* Code in this script was made by integrating snippets from various tutorials within Earth engine such as 
+  reference catalog, https://google-earth-engine.com/, https://iamdonovan.github.io/gee/tutorials/index.html,
+  and example repositories withing earth engine code editor */
+
 var train_1 = ee.FeatureCollection("projects/planetdata-385813/assets/level1_training"),
     landsat_5 = ee.ImageCollection("LANDSAT/LT05/C02/T1_L2"),
     landsat_8 = ee.ImageCollection("LANDSAT/LC09/C02/T1_L2"),
