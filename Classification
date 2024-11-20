@@ -14342,6 +14342,7 @@ var elev = ee.Image('USGS/GMTED2010').select('be75');
 var S20181 = sentinel2_data.filterBounds(mayo_boundary)
   .filterDate('2018-01-01', '2018-12-31')
   .map(applyScaleFactors)
+  .select(['B2', 'B3', 'B4', 'B8'])
   .median()
   .clip(mayo_boundary);
 
