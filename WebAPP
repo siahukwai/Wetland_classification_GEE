@@ -14494,7 +14494,8 @@ function createMainPanel() {
     mainPanel.style().set({
         width: '17%',
         fontSize: '14px',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontFamily: 'Times New Roman'
     });
 
     // Set the background color for the main panel.
@@ -14506,21 +14507,23 @@ function createMainPanel() {
             value: 'Wetland Classification and Change Detection',
             style: {backgroundColor:'#1A5276',
                 fontSize: '24px', margin:'auto', textAlign:'center',
-                fontWeight: 'bold', color:'#EAF2F8'
+                fontWeight: 'bold', color:'#EAF2F8', fontFamily: 'Times New Roman'
             },
         }),
         ui.Label({
             value: 'This app visualises wetland types of Mayo County in Western Ireland ' +
                 'by comparing different classifiers in GEE such as RF, CART, XGB and SVM.' +
-                'You can do a comparison between the classifiers to see how each performed. ' +
+                ' Default layer is level 1 RF Classifier, you can do a comparison between the classifiers to see how each performed. ' +
                 'It also shows an animation of changes in NDVI and NDWI between 1987 and 2023, with ' +
                 'changes in extent, vegetation and water added as layers that can be filtered through. '+
                 'Sentinel-2 was used for detailed classification and Landsat-5 & 8 for change Detection. '+
                 'Please note, the classification comparison layers takes awhile to load because classification was done within the app.'+
-                'Thank you for your patience _____________Sia Ukwai',
+                'Thank you for your patience. '+ 
+                'Sia Ukwai',
             style: {
-                fontSize: '16px',
-                fontWeight: 'normal'
+                fontSize: '15px',
+                fontWeight: 'normal',
+                fontFamily: 'Times New Roman'
             },
         }),
     ]);
@@ -14551,13 +14554,13 @@ var containerPanel2 = ui.Panel({
 
 // Create hyperlinks
 var linkPanel1 = ui.Panel([
-    ui.Label('To learn more about wetlands in Mayo, visit: ', { fontSize: '14px', fontWeight: 'normal', margin: '0px 5px 0px 0px' }),
-    ui.Label('Wetlands of Mayo', { fontSize: '14px', fontWeight: 'normal', color: 'blue', textDecoration: 'underline', margin: '0px'})
+    ui.Label('To learn more about wetlands in Mayo, visit: ', { fontSize: '14px', fontWeight: 'normal', fontFamily: 'Times New Roman', margin: '0px 5px 0px 0px' }),
+    ui.Label('Wetlands of Mayo', { fontSize: '14px', fontWeight: 'normal', fontFamily: 'Times New Roman', color: 'blue', textDecoration: 'underline', margin: '0px'})
 ]);
 
 var linkPanel2 = ui.Panel([
-    ui.Label('To learn more about Irish Wetlands, visit: ', { fontSize: '14px', fontWeight: 'normal', margin: '0px 5px 0px 0px' }),
-    ui.Label('Irish Wetlands', { fontSize: '14px', fontWeight: 'normal', color: 'blue', textDecoration: 'underline', margin: '0px'})
+    ui.Label('To learn more about Irish Wetlands, visit: ', { fontSize: '14px', fontWeight: 'normal', fontFamily: 'Times New Roman', margin: '0px 5px 0px 0px' }),
+    ui.Label('Irish Wetlands', { fontSize: '14px', fontWeight: 'normal', color: 'blue', fontFamily: 'Times New Roman', textDecoration: 'underline', margin: '0px'})
 ]);
 
 // Add click event to hyperlinks
@@ -14576,12 +14579,12 @@ mainPanel.add(containerPanel2);
 
     // Create classifiers comparison section.
     var classifiersSection = ui.Panel([
-        ui.Label('Classifiers Comparison', {backgroundColor:'#1A5276', fontWeight: 'bold', fontSize: '18px', margin:'auto', textAlign:'center', color: '#EAF2F8' }), // Changed to pixels (px)
-        ui.Label('Level 1 Classifiers:',{backgroundColor:'#1A5276', color: '#EAF2F8', fontSize: '16px'}),
+        ui.Label('Classifiers Comparison', {backgroundColor:'#1A5276', fontWeight: 'bold', fontSize: '18px', fontFamily: 'Times New Roman', margin:'auto', textAlign:'center', color: '#EAF2F8' }), // Changed to pixels (px)
+        ui.Label('Level 1 Classifiers:',{backgroundColor:'#1A5276', color: '#EAF2F8', fontSize: '16px', fontFamily: 'Times New Roman'}),
         // Dropdown for Level 1 classifiers
         ui.Select({
-            items: ['RF Classifier', 'CART Classifier', 'XGB Classifier', 'SVM Classifier'],
-            value: 'RF Classifier', // Default value
+            items: ['Select Layer','RF Classifier', 'CART Classifier', 'XGB Classifier', 'SVM Classifier'],
+            value: 'Select Layer', // Default value
             onChange: function(value) {
                 // Function to handle Level 1 classifier change
                 // Clear existing layers on map
@@ -14602,17 +14605,20 @@ mainPanel.add(containerPanel2);
                     case 'SVM Classifier':
                         selectedLayer = SVMwetlands;
                         break;
+                    case 'Select Layer':
+                        selectedLayer = S20181;
+                        break;
                 }
 
                 // Add selected layer to map
-                map.addLayer(selectedLayer, {}, 'Wetlands Classification Level 1 (' + value + ')');
+                map.addLayer(selectedLayer, value === 'Select Layer' ? imageVisParamRgb : {}, 'Wetlands Classification Level 1 (' + value + ')');
             }
         }),
-        ui.Label('Level 2 Classifiers:',{backgroundColor:'#1A5276', color: '#EAF2F8', fontSize: '16px'}),
+        ui.Label('Level 2 Classifiers:',{backgroundColor:'#1A5276', color: '#EAF2F8', fontSize: '16px', fontFamily: 'Times New Roman'}),
         // Dropdown for Level 2 classifiers
         ui.Select({
-            items: ['RF Classifier', 'CART Classifier', 'XGB Classifier', 'SVM Classifier'],
-            value: 'RF Classifier', // Default value
+            items: ['Select Layer', 'RF Classifier', 'CART Classifier', 'XGB Classifier', 'SVM Classifier'],
+            value: 'Select Layer', // Default value
             onChange: function(value) {
                 // Function to handle Level 2 classifier change
                 // Clear existing layers on map
@@ -14633,10 +14639,13 @@ mainPanel.add(containerPanel2);
                     case 'SVM Classifier':
                         selectedLayer = SVMwetlands2;
                         break;
+                    case 'Select Layer':
+                        selectedLayer = S20181;
+                        break;
                 }
 
                 // Add selected layer to map
-                map.addLayer(selectedLayer, {}, 'Wetlands Classification Level 2 (' + value + ')');
+                map.addLayer(selectedLayer, value === 'Select Layer' ? imageVisParamRgb : {}, 'Wetlands Classification Level 2 (' + value + ')');
             }
         })
     ]);
@@ -14649,13 +14658,13 @@ mainPanel.add(containerPanel2);
 
 // Create change detection section.
 var changeDetectionSection = ui.Panel([
-    ui.Label('Change Detection', {backgroundColor:'#1A5276', fontWeight: 'bold', fontSize: '18px', margin:'auto', textAlign:'center', color: '#EAF2F8'}),
+    ui.Label('Change Detection', {backgroundColor:'#1A5276', fontWeight: 'bold', fontSize: '18px', fontFamily: 'Times New Roman', margin:'auto', textAlign:'center', color: '#EAF2F8'}),
 
     // Classification by years
-    ui.Label('Classification by Years', {backgroundColor:'#1A5276', fontWeight: 'bold', fontSize: '16px', color: '#EAF2F8'}),
+    ui.Label('Classification by Years', {backgroundColor:'#1A5276', fontWeight: 'bold', fontSize: '16px', fontFamily: 'Times New Roman', color: '#EAF2F8'}),
     ui.Select({
-        items: ['1987', '2003', '2023'],
-        value: '1987', // Default value
+        items: ['Select Layer', '1987', '2003', '2023'],
+        value: 'Select Layer', // Default value
         onChange: function(value) {
             // Function to handle classification year change
             // Clear existing layers on map
@@ -14673,18 +14682,21 @@ var changeDetectionSection = ui.Panel([
                 case '2023':
                     selectedClassificationLayer = Wetlands_Classification_2023;
                     break;
+                case 'Select Layer':
+                    selectedClassificationLayer = S20181;
+                    break;    
             }
 
             // Add selected classification by year layer to map
-            map.addLayer(selectedClassificationLayer, {}, 'Wetlands Classification (' + value + ')');
+            map.addLayer(selectedClassificationLayer, value === 'Select Layer' ? imageVisParamRgb : {}, 'Wetlands Classification (' + value + ')');
         }
     }),
 
 // Extent
-ui.Label('Extent', {backgroundColor:'#1A5276', fontWeight: 'bold', fontSize: '16px', color: '#EAF2F8'}), 
+ui.Label('Extent', {backgroundColor:'#1A5276', fontWeight: 'bold', fontSize: '16px', fontFamily: 'Times New Roman', color: '#EAF2F8'}), 
 ui.Select({
-    items: ['Changes_1987_2003', 'Changes_2003_2023', 'Changes_1987_2023'],
-    value: 'Changes_1987_2003', // Default value
+    items: ['Select Layer', 'Changes_1987_2003', 'Changes_2003_2023', 'Changes_1987_2023'],
+    value: 'Select Layer', // Default value
     onChange: function(value) {
         // Function to handle changes in extent layer change
         // Clear existing layers on map
@@ -14702,19 +14714,22 @@ ui.Select({
             case 'Changes_1987_2023':
                 selectedChangesExtentLayer = Changes_1987_2023;
                 break;
+            case 'Select Layer':
+                selectedChangesExtentLayer = S20181;
+                break;    
         }
 
         // Add selected changes in extent layer to map
-        map.addLayer(selectedChangesExtentLayer, {}, 'Changes in Extent');
+        map.addLayer(selectedChangesExtentLayer, value === 'Select Layer' ? imageVisParamRgb : {}, 'Changes in Extent');
     }
 }),
 
 // Vegetation Changes
-ui.Label('Vegetation Changes', {backgroundColor:'#1A5276', fontWeight: 'bold', fontSize: '16px', color: '#EAF2F8'}),
+ui.Label('Vegetation Changes', {backgroundColor:'#1A5276', fontWeight: 'bold', fontSize: '16px', fontFamily: 'Times New Roman', color: '#EAF2F8'}),
 ui.Select({
-    items: ['Vegetation_Loss_2003_2023', 'Vegetation_Loss_1987_2003', 'Vegetation_Loss_1987_2023',
+    items: ['Select Layer', 'Vegetation_Loss_2003_2023', 'Vegetation_Loss_1987_2003', 'Vegetation_Loss_1987_2023',
         'Vegetation_Gain_2003_2023', 'Vegetation_Gain_1987_2003', 'Vegetation_Gain_1987_2023'],
-    value: 'Vegetation_Loss_2003_2023', // Default value
+    value: 'Select Layer', // Default value
     onChange: function(value) {
         // Function to handle vegetation changes layer change
         // Clear existing layers on map
@@ -14741,19 +14756,22 @@ ui.Select({
             case 'Vegetation_Gain_1987_2023':
                 selectedVegetationChangesLayer = Vegetation_Gain_1987_2023;
                 break;
+            case 'Select Layer':
+                selectedVegetationChangesLayer = S20181;
+                break;    
         }
 
         // Add selected vegetation changes layer to map
-        map.addLayer(selectedVegetationChangesLayer, {}, 'Vegetation Changes');
+        map.addLayer(selectedVegetationChangesLayer, value === 'Select Layer' ? imageVisParamRgb : {}, 'Vegetation Changes');
     }
 }),
 
 // Water Changes
-ui.Label('Water Changes', {backgroundColor:'#1A5276', fontWeight: 'bold', fontSize: '16px', color: '#EAF2F8'}),
+ui.Label('Water Changes', {backgroundColor:'#1A5276', fontWeight: 'bold', fontSize: '16px', fontFamily: 'Times New Roman', color: '#EAF2F8'}),
 ui.Select({
-    items: ['Water_Loss_2003_2023', 'Water_Loss_1987_2003', 'Water_Loss_1987_2023',
+    items: ['Select Layer', 'Water_Loss_2003_2023', 'Water_Loss_1987_2003', 'Water_Loss_1987_2023',
         'Water_Gain_2003_2023', 'Water_Gain_1987_2003', 'Water_Gain_1987_2023'],
-    value: 'Water_Loss_2003_2023', // Default value
+    value: 'Select Layer', // Default value
     onChange: function(value) {
         // Function to handle water changes layer change
         // Clear existing layers on map
@@ -14780,10 +14798,13 @@ ui.Select({
             case 'Water_Gain_1987_2023':
                 selectedWaterChangesLayer = Water_Gain_1987_2023;
                 break;
+            case 'Select Layer':
+                selectedWaterChangesLayer = S20181;
+                break;
         }
 
         // Add selected water changes layer to map
-        map.addLayer(selectedWaterChangesLayer, {}, 'Water Changes');
+        map.addLayer(selectedWaterChangesLayer, value === 'Select Layer' ? imageVisParamRgb : {},'Water Changes');
     }
 })
 ]);
@@ -14800,6 +14821,7 @@ var legendTitle3 = ui.Label({
   style: {backgroundColor:'#1A5276', color:'#EAF2F8',
     fontWeight: 'bold',
     fontSize: '16px',
+    fontFamily: 'Times New Roman',
     margin: 'auto',
     textAlign: 'center',
     padding: '0'
@@ -14819,7 +14841,7 @@ paletteLabels.forEach(function(label, index) {
   // Create the label for the color box
   var colorBoxLabel = ui.Label({
     value: label,
-    style: { margin: '0 6px 0 0', fontSize: '14px'}
+    style: { fontFamily: 'Times New Roman', margin: '0 6px 0 0', fontSize: '14px'}
   });
 
 var paletteCHANGE=[
@@ -14869,6 +14891,7 @@ var elev = ee.Image('USGS/GMTED2010').select('be75');
 var S20181 = sentinel2_data.filterBounds(mayo_boundary)
   .filterDate('2018-01-01', '2018-12-31')
   .map(applyScaleFactors)
+  .select(['B2', 'B3', 'B4', 'B8'])
   .median()
   .clip(mayo_boundary);
 
